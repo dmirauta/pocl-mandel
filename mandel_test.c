@@ -1,13 +1,17 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#include "mandelstructs.c"
 #include "mandel.c"
-//int remains_in_bounds(struct Complex z, struct Complex c);
 
 const FPN RE0 = -2;
 const FPN RE1 = 0.5;
 const FPN IM0 = -1;
 const FPN IM1 = 1;
+
+const N = 30;
+const M = 80;
+const MAXITER = 80;
 
 int main()
 {
@@ -17,12 +21,12 @@ int main()
     {
         for(int j=0; j<M; j++)
         {
-            struct Complex c;
+            Complex_t c;
 
             c.re = RE0 + j*(RE1-RE0)/M;
             c.im = IM0 + i*(IM1-IM0)/N;
 
-            res_g[i*M+j] = remains_in_bounds(c, c);
+            res_g[i*M+j] = _escape_iter(c, c, MAXITER);
         }
     }
 

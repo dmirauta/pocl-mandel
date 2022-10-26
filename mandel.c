@@ -38,7 +38,7 @@ bool in_bounds(Complex_t z)
     return in_circle(z, (Complex_t){0.0,0.0}, 2);
 }
 
-FPN abs(FPN x)
+FPN _abs(FPN x)
 {
     if(x>0)
     {
@@ -48,21 +48,31 @@ FPN abs(FPN x)
     }
 }
 
+FPN _min(FPN a, FPN b)
+{
+    if(a<b)
+    {
+        return a;
+    } else {
+        return b;
+    }
+}
+
 FPN proximity(Complex_t z, int PROXTYPE)
 // Various things we can measure distance from...
 {
   FPN res = 1000.0;
   if (PROXTYPE & 1)
   {
-    res = min(res, z.re*z.re + z.im*z.im);
+    res = _min(res, z.re*z.re + z.im*z.im);
   }
   if (PROXTYPE & 2)
   {
-    res = min(res, abs(z.re));
+    res = _min(res, _abs(z.re));
   }
   if (PROXTYPE & 4)
   {
-    res = min(res, abs(z.im));
+    res = _min(res, _abs(z.im));
   }
   return res;
 }
@@ -89,7 +99,7 @@ FPN _minprox(Complex_t z, Complex_t c, int MAXITER, int PROXTYPE)
     while(i<MAXITER)
     {
         z = f(z, c);
-        dist = min(dist, proximity(z, PROXTYPE));
+        dist = _min(dist, proximity(z, PROXTYPE));
         i+=1;
     }
 
